@@ -125,7 +125,7 @@ export abstract class ContextKeyExpr {
 			return undefined;
 		}
 
-		return this._deserializeOrExpression(serialized, strict);
+		return this._deserializeOrExpression(serialized, strict, true);
 	}
 
 	private static _splitOutsideParens(serialized: string, match: '&&' | '||'): string[] {
@@ -167,20 +167,20 @@ export abstract class ContextKeyExpr {
 		return result;
 	}
 
-	private static _deserializeOrExpression(serialized: string, strict: boolean): ContextKeyExpression | undefined {
-		let pieces = this._splitOutsideParens(serialized, '||');
-		return ContextKeyOrExpr.create(pieces.map(p => this._deserializeAndExpression(p, strict)), null, true);
+	private static _deserializeOrExpression(serialized: string, strict: boolean, parseParens: boolean): ContextKeyExpression | undefined {
+		let pieces = parseParens ? this._splitOutsideParens(serialized, '||') : serialized.split('||');
+		return ContextKeyOrExpr.create(pieces.map(p => this._deserializeAndExpression(p, strict, parseParens)), null, true);
 	}
 
-	private static _deserializeAndExpression(serialized: string, strict: boolean): ContextKeyExpression | undefined {
-		let pieces = this._splitOutsideParens(serialized, '&&');
-		return ContextKeyAndExpr.create(pieces.map(p => this._deserializePartialExpression(p, strict)), null);
+	private static _deserializeAndExpression(serialized: string, strict: boolean, parseParens: boolean): ContextKeyExpression | undefined {
+		let pieces = parseParens ? this._splitOutsideParens(serialized, '&&') : serialized.split('&&');
+		return ContextKeyAndExpr.create(pieces.map(p => this._deserializePartialExpression(p, strict, parseParens)), null);
 	}
 
-	private static _deserializePartialExpression(serialized: string, strict: boolean): ContextKeyExpression | undefined {
+	private static _deserializePartialExpression(serialized: string, strict: boolean, parseParens: boolean): ContextKeyExpression | undefined {
 		serialized = serialized.trim();
-		if (serialized.startsWith('(') && serialized.endsWith(')')) {
-			return this._deserializeOrExpression(serialized, strict);
+		if (parseParens && serialized.startsWith('(') && serialized.endsWith(')')) {
+			return this._deserializeOrExpression(serialized, strict, parseParens);
 		}
 		return this._deserializeOne(serialized, strict);
 	}
