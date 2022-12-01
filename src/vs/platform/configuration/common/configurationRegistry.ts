@@ -630,7 +630,7 @@ class ConfigurationRegistry implements IConfigurationRegistry {
 
 const OVERRIDE_IDENTIFIER_PATTERN = `\\[([^\\]]+)\\]`;
 const OVERRIDE_IDENTIFIER_REGEX = new RegExp(OVERRIDE_IDENTIFIER_PATTERN, 'g');
-export const OVERRIDE_PROPERTY_PATTERN = `^(${OVERRIDE_IDENTIFIER_PATTERN})+$`;
+export const OVERRIDE_PROPERTY_PATTERN = `(?:\\.|^)(${OVERRIDE_IDENTIFIER_PATTERN})+(?:\\.|$)`;
 export const OVERRIDE_PROPERTY_REGEX = new RegExp(OVERRIDE_PROPERTY_PATTERN);
 
 export function overrideIdentifiersFromKey(key: string): string[] {
