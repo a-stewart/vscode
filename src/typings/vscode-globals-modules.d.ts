@@ -21,8 +21,8 @@ declare global {
 		['native-watchdog']: typeof import('native-watchdog')
 		perf_hooks: typeof import('perf_hooks');
 
-		['vsda']: any
-		['vscode-encrypt']: any
+		['vsda']: any;
+		['vscode-encrypt']: any;
 	}
 }
 
