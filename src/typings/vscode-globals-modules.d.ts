@@ -18,7 +18,7 @@ declare global {
 		net: typeof import('net');
 		os: typeof import('os');
 		module: typeof import('module');
-		['native-watchdog']: typeof import('native-watchdog')
+		['native-watchdog']: typeof import('native-watchdog');
 		perf_hooks: typeof import('perf_hooks');
 
 		['vsda']: any;
