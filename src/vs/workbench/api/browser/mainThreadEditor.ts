@@ -503,7 +503,7 @@ export class MainThreadTextEditor {
 			this._codeEditor.pushUndoStop();
 		}
 		const source = EditSources.unknown({name: 'MainThreadTextEditor', providerId: ProviderId.fromExtensionId(opts.extensionId ?? undefined)});
-		this._codeEditor.executeEdits('MainThreadTextEditor', transformedEdits);
+		this._codeEditor.executeEdits(source, transformedEdits);
 		if (opts.undoStopAfter) {
 			this._codeEditor.pushUndoStop();
 		}
